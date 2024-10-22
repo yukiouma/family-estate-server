@@ -1,0 +1,10 @@
+[package]
+name = "family-estate-server"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "server"
+
+[dependencies]
+
