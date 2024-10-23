@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
     PRIMARY KEY(`id`)
 );
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE IF NOT EXISTS `tag` (
+CREATE TABLE IF NOT EXISTS `category` (
     `id` BIGINT AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `parent_id` BIGINT NOT NULL DEFAULT 0,
@@ -30,5 +30,5 @@ CREATE TABLE IF NOT EXISTS `data` (
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     `deleted_at` TIMESTAMP,
     PRIMARY KEY(`id`),
-    UNIQUE INDEX `idx_unique` (`tag_id`, `category_id`, `sub_category_id`),
+    UNIQUE INDEX `idx_unique` (`tag_id`, `category_id`, `sub_category_id`)
 );
