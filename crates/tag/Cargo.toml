@@ -5,4 +5,15 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.91"
-sqlx = { version = "0.8.2", features = ["mysql", "runtime-tokio-native-tls", "chrono"] }
+sqlx = { version = "0.8.2", features = [
+    "mysql",
+    "runtime-tokio-native-tls",
+    "chrono",
+] }
+
+[dev-dependencies]
+tokio = { version = "1.41.0", features = ["full"] }
+
+[[test]]
+name = "intergration"
+path = "tests/tests.rs"

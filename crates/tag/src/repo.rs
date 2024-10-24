@@ -9,18 +9,18 @@ pub async fn list_tags(pool: &Pool<MySql>) -> anyhow::Result<Vec<Tag>> {
     Ok(tags)
 }
 
-pub async fn create_tag(pool: &Pool<MySql>, tag: Tag) -> anyhow::Result<()> {
+pub async fn create_tag(pool: &Pool<MySql>, tag: &Tag) -> anyhow::Result<()> {
     sqlx::query("INSERT INTO tag (name) VALUE (?)")
-        .bind(tag.name)
+        .bind(tag.name.to_owned())
         .execute(pool)
         .await?;
     Ok(())
 }
 
-pub async fn modify_tag(pool: &Pool<MySql>, tag: Tag) -> anyhow::Result<()> {
+pub async fn modify_tag(pool: &Pool<MySql>, tag: &Tag) -> anyhow::Result<()> {
     if let Some(id) = tag.id {
-        sqlx::query("UPDATE tag (name) VALUE (?) WHERE id = ?")
-            .bind(tag.name)
+        sqlx::query("UPDATE tag SET name = ? WHERE id = ?")
+            .bind(tag.name.to_owned())
             .bind(id)
             .execute(pool)
             .await?;
@@ -29,5 +29,9 @@ pub async fn modify_tag(pool: &Pool<MySql>, tag: Tag) -> anyhow::Result<()> {
 }
 
 pub async fn remove_tag(pool: &Pool<MySql>, id: i64) -> anyhow::Result<()> {
-    todo!()
+    sqlx::query("DELETE FROM tag WHERE id = ?")
+        .bind(id)
+        .execute(pool)
+        .await?;
+    Ok(())
 }
