@@ -34,7 +34,7 @@ pub async fn add_sub_category(
     parent: i64,
     category: &Category,
 ) -> anyhow::Result<()> {
-    sqlx::query("INSERT INTO `category` (`name`, `parent`) VALUE (?, ?)")
+    sqlx::query("INSERT INTO `category` (`name`, `parent_id`) VALUE (?, ?)")
         .bind(category.name.to_owned())
         .bind(parent)
         .execute(pool)

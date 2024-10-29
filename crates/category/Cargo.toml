@@ -6,3 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = { workspace = true }
 sqlx = { workspace = true }
+
+[dev-dependencies]
+tokio = { version = "1.41.0", features = ["full"] }
+
+[[test]]
+name = "intergration"
+path = "tests/tests.rs"

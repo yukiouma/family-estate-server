@@ -1,3 +1,3 @@
-mod category;
+pub mod category;
 mod repo;
 pub mod usecase;
