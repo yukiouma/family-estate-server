@@ -7,6 +7,12 @@ edition = "2021"
 name = "server"
 
 [workspace]
-members = ["crates/tag"]
+members = ["crates/category", "crates/tag"]
 
-[dependencies]
+[workspace.dependencies]
+anyhow = "1.0.91"
+sqlx = { version = "0.8.2", features = [
+    "mysql",
+    "runtime-tokio-native-tls",
+    "chrono",
+] }

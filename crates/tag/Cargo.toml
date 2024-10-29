@@ -4,12 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.91"
-sqlx = { version = "0.8.2", features = [
-    "mysql",
-    "runtime-tokio-native-tls",
-    "chrono",
-] }
+anyhow = { workspace = true }
+sqlx = { workspace = true }
 
 [dev-dependencies]
 tokio = { version = "1.41.0", features = ["full"] }
