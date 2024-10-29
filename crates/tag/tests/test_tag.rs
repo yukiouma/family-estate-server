@@ -1,6 +1,5 @@
 use tag::{tag::Tag, usecase::TagUsecase};
-
-use crate::db::create_pool;
+use sqlx::{MySql, MySqlPool, Pool};
 
 #[tokio::test]
 async fn tag() {
@@ -27,4 +26,13 @@ async fn tag() {
         .remove_tag(tag.id.unwrap())
         .await
         .expect("failed to remove tag");
+}
+
+
+
+
+pub async fn create_pool(url: &str) -> Pool<MySql> {
+    MySqlPool::connect(url)
+        .await
+        .expect("failed to connect database")
 }
