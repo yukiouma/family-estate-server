@@ -5,6 +5,7 @@ use crate::{
     repo::{create_data, list_data, modify_data, remove_data},
 };
 
+#[derive(Debug, Clone)]
 pub struct DataUsecase {
     pool: Pool<MySql>,
 }

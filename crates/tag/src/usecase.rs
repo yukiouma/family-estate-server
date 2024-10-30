@@ -5,6 +5,7 @@ use crate::{
     tag::Tag,
 };
 
+#[derive(Debug, Clone)]
 pub struct TagUsecase {
     pool: Pool<MySql>,
 }

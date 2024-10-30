@@ -9,6 +9,16 @@ name = "server"
 [workspace]
 members = ["crates/category", "crates/data", "crates/tag"]
 
+[dependencies]
+tokio = { version = "1.41.0", features = ["full"] }
+anyhow = { workspace = true }
+sqlx = { workspace = true }
+dotenv = "0.15.0"
+axum = "0.7.7"
+category = { path = "crates/category" }
+data = { path = "crates/data" }
+tag = { path = "crates/tag" }
+
 [workspace.dependencies]
 anyhow = "1.0.91"
 sqlx = { version = "0.8.2", features = [
@@ -16,4 +26,3 @@ sqlx = { version = "0.8.2", features = [
     "runtime-tokio-native-tls",
     "chrono",
 ] }
-

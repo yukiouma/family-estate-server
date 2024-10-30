@@ -6,6 +6,7 @@ use crate::repo::{
     remove_category,
 };
 
+#[derive(Debug, Clone)]
 pub struct CategoryUsecase {
     pool: Pool<MySql>,
 }
