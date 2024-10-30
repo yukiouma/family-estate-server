@@ -1,5 +1,5 @@
-use tag::{tag::Tag, usecase::TagUsecase};
 use sqlx::{MySql, MySqlPool, Pool};
+use tag::{tag::Tag, usecase::TagUsecase};
 
 #[tokio::test]
 async fn tag() {
@@ -27,9 +27,6 @@ async fn tag() {
         .await
         .expect("failed to remove tag");
 }
-
-
-
 
 pub async fn create_pool(url: &str) -> Pool<MySql> {
     MySqlPool::connect(url)
