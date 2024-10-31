@@ -1,4 +1,4 @@
-use crate::repo::Repo;
+use crate::{repo::Repo, router::tag::tag_router};
 use axum::Router;
 
 pub struct Server {
@@ -7,7 +7,7 @@ pub struct Server {
 
 impl Server {
     pub fn new(repo: Repo) -> Self {
-        let router = Router::new().with_state(repo);
+        let router = Router::new().nest("/tag", tag_router(repo.clone()));
         Server { router }
     }
     pub async fn run(self, port: usize) -> anyhow::Result<()> {

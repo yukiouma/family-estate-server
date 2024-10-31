@@ -18,8 +18,11 @@ axum = "0.7.7"
 category = { path = "crates/category" }
 data = { path = "crates/data" }
 tag = { path = "crates/tag" }
+serde = { workspace = true }
 
 [workspace.dependencies]
+
+serde = { version = "1.0.214", features = ["derive"] }
 anyhow = "1.0.91"
 sqlx = { version = "0.8.2", features = [
     "mysql",
