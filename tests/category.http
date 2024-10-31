@@ -1,0 +1,37 @@
+GET http://localhost:9000/category
+
+###
+
+GET http://localhost:9000/category/sub?category_id=1
+
+###
+
+POST http://localhost:9000/category
+Content-Type: application/json
+
+{
+    "name": "流动资金"
+}
+
+###
+
+POST http://localhost:9000/category/sub
+Content-Type: application/json
+
+{
+    "parent": 1,
+    "name": "活期存款"
+}
+
+###
+
+PUT  http://localhost:9000/category/1
+Content-Type: application/json
+
+{
+    "name": "Fund"
+}
+
+###
+
+DELETE  http://localhost:9000/category/2

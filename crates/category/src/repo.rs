@@ -4,7 +4,7 @@ use crate::category::Category;
 
 pub async fn list_categories(pool: &Pool<MySql>) -> anyhow::Result<Vec<Category>> {
     let categories = sqlx::query_as::<_, Category>(
-        "SELECT `id`, `name` FROM `category` WHERE `deleted_at` IS NULL",
+        "SELECT `id`, `name` FROM `category` WHERE `parent_id` = 0 AND `deleted_at` IS NULL",
     )
     .fetch_all(pool)
     .await?;

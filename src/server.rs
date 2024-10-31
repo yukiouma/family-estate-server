@@ -1,4 +1,7 @@
-use crate::{repo::Repo, router::tag::tag_router};
+use crate::{
+    repo::Repo,
+    router::{category::category_router, tag::tag_router},
+};
 use axum::Router;
 
 pub struct Server {
@@ -7,7 +10,9 @@ pub struct Server {
 
 impl Server {
     pub fn new(repo: Repo) -> Self {
-        let router = Router::new().nest("/tag", tag_router(repo.clone()));
+        let router = Router::new()
+            .nest("/tag", tag_router(repo.clone()))
+            .nest("/category", category_router(repo.clone()));
         Server { router }
     }
     pub async fn run(self, port: usize) -> anyhow::Result<()> {

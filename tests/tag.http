@@ -1,0 +1,23 @@
+GET http://localhost:9000/tag
+
+###
+
+POST http://localhost:9000/tag
+Content-Type: application/json
+
+{
+    "name": "yuki"
+}
+
+###
+
+PUT  http://localhost:9000/tag/1
+Content-Type: application/json
+
+{
+    "name": "malney"
+}
+
+###
+
+DELETE  http://localhost:9000/tag/1
