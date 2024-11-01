@@ -1,5 +1,8 @@
 use category::{category::Category, usecase::CategoryUsecase};
-use data::usecase::DataUsecase;
+use data::{
+    data::{CategoryData, Data},
+    usecase::DataUsecase,
+};
 use sqlx::MySqlPool;
 use tag::{tag::Tag, usecase::TagUsecase};
 
@@ -37,7 +40,7 @@ impl Repo {
     pub async fn list_category(&self) -> anyhow::Result<Vec<Category>> {
         self.category.list_categories().await
     }
-    pub async fn list_sub_categories(&self, parent: i64) -> anyhow::Result<Vec<Category>> {
+    pub async fn list_sub_categories(&self, parent: Option<i64>) -> anyhow::Result<Vec<Category>> {
         self.category.list_sub_categories(parent).await
     }
     pub async fn create_category(&self, category: &Category) -> anyhow::Result<()> {
@@ -55,5 +58,14 @@ impl Repo {
     }
     pub async fn remove_category(&self, category_id: i64) -> anyhow::Result<()> {
         self.category.remove_category(category_id).await
+    }
+    pub async fn list_category_data(
+        &self,
+        tag_id: Option<i64>,
+    ) -> anyhow::Result<Vec<CategoryData>> {
+        self.data.list_category_data(tag_id).await
+    }
+    pub async fn list_sub_category_data(&self, tag_id: Option<i64>) -> anyhow::Result<Vec<Data>> {
+        self.data.list_data(tag_id).await
     }
 }

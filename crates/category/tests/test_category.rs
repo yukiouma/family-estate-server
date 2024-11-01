@@ -22,7 +22,7 @@ async fn category() -> anyhow::Result<()> {
         },
     )
     .await?;
-    let mut sub_categories = uc.list_sub_categories(category.id.unwrap()).await?;
+    let mut sub_categories = uc.list_sub_categories(category.id).await?;
     assert_eq!(sub_categories.len(), 1);
     let sub_category = sub_categories.first_mut().unwrap();
     category.name = "main_update".into();
@@ -34,7 +34,7 @@ async fn category() -> anyhow::Result<()> {
     sub_category.name = "sub_update".into();
     uc.modify_category(&sub_category).await?;
     assert_eq!(
-        uc.list_sub_categories(category.id.unwrap())
+        uc.list_sub_categories(category.id)
             .await?
             .first()
             .unwrap()
@@ -44,7 +44,7 @@ async fn category() -> anyhow::Result<()> {
     uc.remove_category(category.id.unwrap()).await?;
     uc.remove_category(sub_category.id.unwrap()).await?;
     assert_eq!(uc.list_categories().await?.len(), 0);
-    assert_eq!(uc.list_sub_categories(category.id.unwrap()).await?.len(), 0);
+    assert_eq!(uc.list_sub_categories(category.id).await?.len(), 0);
     Ok(())
 }
 

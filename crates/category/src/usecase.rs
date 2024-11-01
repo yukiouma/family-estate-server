@@ -20,7 +20,7 @@ impl CategoryUsecase {
         Ok(list_categories(&self.pool).await?)
     }
 
-    pub async fn list_sub_categories(&self, parent: i64) -> anyhow::Result<Vec<Category>> {
+    pub async fn list_sub_categories(&self, parent: Option<i64>) -> anyhow::Result<Vec<Category>> {
         Ok(list_sub_categories(&self.pool, parent).await?)
     }
 

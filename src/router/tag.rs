@@ -6,29 +6,29 @@ use axum::{
 use tag::tag::Tag;
 
 use crate::{
-    repo::Repo,
     service::{
         errors::AppError,
         tag::{CreateTagReply, ListTagReply, ModifyTagReply, RemoveTagReply},
     },
+    usecase::tag::TagUsecase,
 };
 
-pub fn tag_router(repo: Repo) -> Router {
+pub fn tag_router(usecase: TagUsecase) -> Router {
     Router::new()
         .route("/", get(list_tags))
         .route("/", post(create_tag))
         .route("/:id", put(modify_tag))
         .route("/:id", delete(remove_tag))
-        .with_state(repo)
+        .with_state(usecase)
 }
 
-async fn list_tags(state: State<Repo>) -> anyhow::Result<Json<ListTagReply>, AppError> {
+async fn list_tags(state: State<TagUsecase>) -> anyhow::Result<Json<ListTagReply>, AppError> {
     let tags = state.list_tags().await?;
     Ok(Json(ListTagReply { data: tags }))
 }
 
 async fn create_tag(
-    state: State<Repo>,
+    state: State<TagUsecase>,
     Json(tag): Json<Tag>,
 ) -> anyhow::Result<Json<CreateTagReply>, AppError> {
     state.create_tag(&tag).await?;
@@ -36,7 +36,7 @@ async fn create_tag(
 }
 
 async fn modify_tag(
-    state: State<Repo>,
+    state: State<TagUsecase>,
     Path(id): Path<i64>,
     Json(tag): Json<Tag>,
 ) -> anyhow::Result<Json<ModifyTagReply>, AppError> {
@@ -50,7 +50,7 @@ async fn modify_tag(
 }
 
 async fn remove_tag(
-    state: State<Repo>,
+    state: State<TagUsecase>,
     Path(id): Path<i64>,
 ) -> anyhow::Result<Json<RemoveTagReply>, AppError> {
     state.remove_tag(id).await?;
