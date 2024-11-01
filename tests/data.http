@@ -7,10 +7,10 @@ GET http://localhost:9000/data/category?tag_id=1
 GET http://localhost:9000/data
 
 ###
-GET http://localhost:9000/data?tag_id=1
+GET http://localhost:9000/api/data?tag_id=1
 
 ###
-POST http://localhost:9000/data
+POST http://localhost:9000/api/data
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:9000/data/1
+PUT http://localhost:9000/api/data/1
 Content-Type: application/json
 
 {
@@ -29,4 +29,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:9000/data/1
+DELETE http://localhost:9000/api/data/1

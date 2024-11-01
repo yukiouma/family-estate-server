@@ -1,8 +1,8 @@
-GET http://localhost:9000/tag
+GET http://localhost:9000/api/tag
 
 ###
 
-POST http://localhost:9000/tag
+POST http://localhost:9000/api/tag
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 
 ###
 
-PUT  http://localhost:9000/tag/1
+PUT  http://localhost:9000/api/tag/1
 Content-Type: application/json
 
 {
@@ -20,4 +20,4 @@ Content-Type: application/json
 
 ###
 
-DELETE  http://localhost:9000/tag/1
+DELETE  http://localhost:9000/api/tag/1

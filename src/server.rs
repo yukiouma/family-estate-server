@@ -11,10 +11,13 @@ pub struct Server {
 
 impl Server {
     pub fn new(repo: Repo) -> Self {
-        let router = Router::new()
-            .nest("/tag", tag_router(TagUsecase::new(&repo)))
-            .nest("/category", category_router(CategoryUsecase::new(&repo)))
-            .nest("/data", data_router(DataUsecase::new(&repo)));
+        let router = Router::new().nest(
+            "/api",
+            Router::new()
+                .nest("/tag", tag_router(TagUsecase::new(&repo)))
+                .nest("/category", category_router(CategoryUsecase::new(&repo)))
+                .nest("/data", data_router(DataUsecase::new(&repo))),
+        );
         Server { router }
     }
     pub async fn run(self, port: usize) -> anyhow::Result<()> {
