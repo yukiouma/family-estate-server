@@ -10,7 +10,9 @@ pub struct CategoryData {
 #[derive(Debug, Serialize)]
 pub struct SubCategoryData {
     pub id: i64,
+    #[serde(rename(serialize = "categoryId"))]
     pub category_id: i64,
+    #[serde(rename(serialize = "subCategory", deserialize = "subCategory"))]
     pub sub_category: String,
     pub value: f64,
 }
