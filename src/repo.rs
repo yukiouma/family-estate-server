@@ -68,4 +68,13 @@ impl Repo {
     pub async fn list_sub_category_data(&self, tag_id: Option<i64>) -> anyhow::Result<Vec<Data>> {
         self.data.list_data(tag_id).await
     }
+    pub async fn create_data(&self, data: &Data) -> anyhow::Result<()> {
+        self.data.create_data(data).await
+    }
+    pub async fn modify_data(&self, id: i64, amount: f64) -> anyhow::Result<()> {
+        self.data.modify_data(id, amount).await
+    }
+    pub async fn remove_data(&self, id: i64) -> anyhow::Result<()> {
+        self.data.remove_data(id).await
+    }
 }

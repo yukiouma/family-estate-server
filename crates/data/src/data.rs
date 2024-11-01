@@ -1,6 +1,7 @@
+use serde::Deserialize;
 use sqlx::prelude::FromRow;
 
-#[derive(Debug, FromRow)]
+#[derive(Debug, FromRow, Deserialize)]
 pub struct Data {
     pub id: Option<i64>,
     pub category_id: i64,

@@ -1,0 +1,32 @@
+GET http://localhost:9000/data/category
+
+###
+GET http://localhost:9000/data/category?tag_id=1
+
+###
+GET http://localhost:9000/data
+
+###
+GET http://localhost:9000/data?tag_id=1
+
+###
+POST http://localhost:9000/data
+Content-Type: application/json
+
+{
+    "category_id": 1,
+    "sub_category_id": 2,
+    "tag_id": 1,
+    "amount": 100
+}
+
+###
+PUT http://localhost:9000/data/1
+Content-Type: application/json
+
+{
+    "amount": 200
+}
+
+###
+DELETE http://localhost:9000/data/1

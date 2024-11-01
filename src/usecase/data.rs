@@ -1,10 +1,13 @@
 use std::collections::HashMap;
 
+use data::data::Data;
+
 use crate::{
     repo::Repo,
     service::data::{CategoryData, SubCategoryData},
 };
 
+#[derive(Debug, Clone)]
 pub struct DataUsecase {
     repo: Repo,
 }
@@ -41,10 +44,7 @@ impl DataUsecase {
             })
             .collect())
     }
-    pub async fn list_sub_category_data(
-        &self,
-        tag_id: Option<i64>,
-    ) -> anyhow::Result<Vec<SubCategoryData>> {
+    pub async fn list_data(&self, tag_id: Option<i64>) -> anyhow::Result<Vec<SubCategoryData>> {
         let sub_categories = self
             .repo
             .list_sub_categories(None)
@@ -71,11 +71,16 @@ impl DataUsecase {
             })
             .collect())
     }
-}
 
-// { id: 0, categoryId: 1, subCategory: '活期存款', value: 300000 },
-// { id: 0, categoryId: 2, subCategory: '汽车', value: 300000 },
-// { id: 0, categoryId: 2, subCategory: '房子', value: 300000 },
-// { id: 0, categoryId: 3, subCategory: '基金', value: 300000 },
-// { id: 0, categoryId: 3, subCategory: '债券', value: 300000 },
-// { id: 0, categoryId: 5, subCategory: '房贷', value: 300000 }
+    pub async fn create_data(&self, data: &Data) -> anyhow::Result<()> {
+        self.repo.create_data(data).await
+    }
+
+    pub async fn modify_data(&self, id: i64, amount: f64) -> anyhow::Result<()> {
+        self.repo.modify_data(id, amount).await
+    }
+
+    pub async fn remove_data(&self, id: i64) -> anyhow::Result<()> {
+        self.repo.remove_data(id).await
+    }
+}
