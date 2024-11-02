@@ -4,7 +4,7 @@ GET http://localhost:9000/data/category
 GET http://localhost:9000/data/category?tag_id=1
 
 ###
-GET http://localhost:9000/data
+GET http://localhost:9000/api/data
 
 ###
 GET http://localhost:9000/api/data?tag_id=1

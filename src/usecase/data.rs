@@ -52,24 +52,41 @@ impl DataUsecase {
             .into_iter()
             .map(|category| (category.id.unwrap(), category.name))
             .collect::<HashMap<i64, String>>();
-        Ok(self
-            .repo
-            .list_sub_category_data(tag_id)
-            .await?
-            .into_iter()
-            .map(|data| {
-                let sub_category = match sub_categories.get(&data.sub_category_id) {
-                    Some(category) => category.clone(),
-                    None => "".into(),
-                };
-                SubCategoryData {
-                    id: data.id.unwrap(),
-                    category_id: data.category_id,
-                    sub_category,
-                    value: data.amount,
+        let data_list = self.repo.list_sub_category_data(tag_id).await?;
+        let mut data_sub_category: HashMap<i64, SubCategoryData> = HashMap::new();
+        for data in data_list {
+            let Data {
+                id,
+                category_id,
+                sub_category_id,
+                amount,
+                ..
+            } = data;
+            match data_sub_category.get_mut(&sub_category_id) {
+                Some(previous) => {
+                    previous.value += data.amount;
                 }
-            })
-            .collect())
+                None => {
+                    let sub_category = match sub_categories.get(&data.sub_category_id) {
+                        Some(category) => category.clone(),
+                        None => "".into(),
+                    };
+                    let data = SubCategoryData {
+                        id: id.unwrap(),
+                        category_id,
+                        sub_category,
+                        value: amount,
+                    };
+                    data_sub_category.insert(sub_category_id, data);
+                }
+            }
+        }
+        let mut result = data_sub_category
+            .into_iter()
+            .map(|data| data.1)
+            .collect::<Vec<SubCategoryData>>();
+        result.sort_by(|x, y| x.category_id.cmp(&y.category_id));
+        Ok(result)
     }
 
     pub async fn create_data(&self, data: &Data) -> anyhow::Result<()> {
