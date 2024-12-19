@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use data::data::Data;
+use data::data::{Data, HistoryData};
 
 use crate::{
     repo::Repo,
@@ -44,6 +44,7 @@ impl DataUsecase {
             })
             .collect())
     }
+
     pub async fn list_data(&self, tag_id: Option<i64>) -> anyhow::Result<Vec<SubCategoryData>> {
         let sub_categories = self
             .repo
@@ -75,6 +76,7 @@ impl DataUsecase {
                         id: id.unwrap(),
                         category_id,
                         sub_category,
+                        sub_category_id,
                         value: amount,
                     };
                     data_sub_category.insert(sub_category_id, data);
@@ -87,6 +89,17 @@ impl DataUsecase {
             .collect::<Vec<SubCategoryData>>();
         result.sort_by(|x, y| x.category_id.cmp(&y.category_id));
         Ok(result)
+    }
+
+    pub async fn list_history(&self, record_id: i64) -> anyhow::Result<Vec<HistoryData>> {
+        self.repo.list_history(record_id).await
+    }
+
+    pub async fn list_category_history(
+        &self,
+        sub_category_id: i64,
+    ) -> anyhow::Result<Vec<HistoryData>> {
+        self.repo.list_category_history(sub_category_id).await
     }
 
     pub async fn create_data(&self, data: &Data) -> anyhow::Result<()> {

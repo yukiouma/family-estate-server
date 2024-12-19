@@ -1,8 +1,10 @@
+use std::ops::{Div, Sub};
+
 use sqlx::{MySql, Pool};
 
 use crate::{
-    data::{CategoryData, Data},
-    repo::{create_data, list_data, modify_data, remove_data},
+    data::{CategoryData, Data, HistoryData, HistoryRow},
+    repo::{create_data, list_cateory_history, list_data, list_history, modify_data, remove_data},
 };
 
 #[derive(Debug, Clone)]
@@ -52,4 +54,64 @@ impl DataUsecase {
         result.push(category_data);
         Ok(result)
     }
+
+    pub async fn list_history(&self, record_id: i64) -> anyhow::Result<Vec<HistoryData>> {
+        let rows = list_history(&self.pool, record_id).await?;
+        Ok(history_row_to_data(&rows))
+    }
+
+    pub async fn list_category_history(
+        &self,
+        sub_category_id: i64,
+    ) -> anyhow::Result<Vec<HistoryData>> {
+        let rows = list_cateory_history(&self.pool, sub_category_id).await?;
+        Ok(history_row_to_data(&rows))
+    }
+}
+
+fn history_row_to_data(rows: &[HistoryRow]) -> Vec<HistoryData> {
+    let mut result: Vec<HistoryData> = Vec::with_capacity(rows.len());
+    let mut min = 0f64;
+    let mut max = 0f64;
+    let mut min_index = 0;
+    let mut max_index = 0;
+    let mut last_amount: Option<f64> = None;
+    for (index, row) in rows.into_iter().enumerate() {
+        let date = row.history_date.format("%Y-%m-%d").to_string();
+        if let Some(last) = last_amount {
+            let change = last.sub(&row.amount).div(&last);
+            last_amount = Some(row.amount);
+            result.push(HistoryData {
+                id: row.id,
+                amount: row.amount,
+                change,
+                date: date.clone(),
+                is_max: false,
+                is_min: false,
+            });
+        } else {
+            result.push(HistoryData {
+                id: row.id,
+                amount: row.amount,
+                change: 0f64,
+                date: date.clone(),
+                is_max: false,
+                is_min: false,
+            });
+        }
+        if row.amount.gt(&max) {
+            max = row.amount;
+            max_index = index
+        } else if row.amount.lt(&min) {
+            min = row.amount;
+            min_index = index;
+        }
+    }
+    if let Some(history) = result.get_mut(max_index) {
+        history.is_max = true;
+    }
+    if let Some(history) = result.get_mut(min_index) {
+        history.is_min = true;
+    }
+    result
 }

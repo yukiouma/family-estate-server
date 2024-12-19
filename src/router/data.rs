@@ -1,3 +1,15 @@
+use crate::{
+    service::{
+        category::ModifyCategroyReply,
+        data::{
+            CreateDataReply, ListCategoryDataReply, ListCategoryDataRequest,
+            ListCategoryHistoryReply, ListCategoryHistoryRequest, ListDataReply, ListDataRequest,
+            ListHistoryReply, ListHistoryRequest, ModifyDataRequest, RemoveDataReply,
+        },
+        errors::AppError,
+    },
+    usecase::data::DataUsecase,
+};
 use axum::{
     extract::{Path, Query, State},
     routing::{delete, get, post, put},
@@ -5,22 +17,12 @@ use axum::{
 };
 use data::data::Data;
 
-use crate::{
-    service::{
-        category::ModifyCategroyReply,
-        data::{
-            CreateDataReply, ListCategoryDataReply, ListCategoryDataRequest, ListDataReply,
-            ListDataRequest, ModifyDataRequest, RemoveDataReply,
-        },
-        errors::AppError,
-    },
-    usecase::data::DataUsecase,
-};
-
 pub fn data_router(usecase: DataUsecase) -> Router {
     Router::new()
         .route("/category", get(list_category_data))
         .route("/", get(list_data))
+        .route("/history", get(list_history))
+        .route("/category/history", get(list_category_history))
         .route("/", post(create_data))
         .route("/:id", put(modify_data))
         .route("/:id", delete(remove_data))
@@ -41,6 +43,22 @@ async fn list_data(
 ) -> anyhow::Result<Json<ListDataReply>, AppError> {
     let data = state.list_data(query.tag_id).await?;
     Ok(Json(ListDataReply { data }))
+}
+
+async fn list_history(
+    state: State<DataUsecase>,
+    query: Query<ListHistoryRequest>,
+) -> anyhow::Result<Json<ListHistoryReply>, AppError> {
+    let data = state.list_history(query.record_id).await?;
+    Ok(Json(ListHistoryReply { data }))
+}
+
+async fn list_category_history(
+    state: State<DataUsecase>,
+    query: Query<ListCategoryHistoryRequest>,
+) -> anyhow::Result<Json<ListCategoryHistoryReply>, AppError> {
+    let data = state.list_category_history(query.sub_category_id).await?;
+    Ok(Json(ListCategoryHistoryReply { data }))
 }
 
 async fn create_data(

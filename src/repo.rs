@@ -1,6 +1,6 @@
 use category::{category::Category, usecase::CategoryUsecase};
 use data::{
-    data::{CategoryData, Data},
+    data::{CategoryData, Data, HistoryData},
     usecase::DataUsecase,
 };
 use sqlx::MySqlPool;
@@ -67,6 +67,15 @@ impl Repo {
     }
     pub async fn list_sub_category_data(&self, tag_id: Option<i64>) -> anyhow::Result<Vec<Data>> {
         self.data.list_data(tag_id).await
+    }
+    pub async fn list_history(&self, record_id: i64) -> anyhow::Result<Vec<HistoryData>> {
+        self.data.list_history(record_id).await
+    }
+    pub async fn list_category_history(
+        &self,
+        sub_category_id: i64,
+    ) -> anyhow::Result<Vec<HistoryData>> {
+        self.data.list_category_history(sub_category_id).await
     }
     pub async fn create_data(&self, data: &Data) -> anyhow::Result<()> {
         self.data.create_data(data).await

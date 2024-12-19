@@ -10,22 +10,22 @@ GET http://localhost:9000/api/data
 GET http://localhost:9000/api/data?tag_id=1
 
 ###
-POST http://localhost:9000/api/data
+POST http://localhost:9001/api/data
 Content-Type: application/json
 
 {
-    "category_id": 1,
-    "sub_category_id": 2,
-    "tag_id": 1,
+    "categoryId": 1,
+    "subCategoryId": 3,
+    "tagId": 3,
     "amount": 100
 }
 
 ###
-PUT http://localhost:9000/api/data/1
+PUT http://localhost:9001/api/data/5
 Content-Type: application/json
 
 {
-    "amount": 200
+    "amount": 30000
 }
 
 ###

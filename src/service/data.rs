@@ -1,3 +1,4 @@
+use data::data::HistoryData;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize)]
@@ -14,6 +15,8 @@ pub struct SubCategoryData {
     pub category_id: i64,
     #[serde(rename(serialize = "subCategory", deserialize = "subCategory"))]
     pub sub_category: String,
+    #[serde(rename(serialize = "subCategoryId"))]
+    pub sub_category_id: i64,
     pub value: f64,
 }
 
@@ -35,6 +38,26 @@ pub struct ListDataRequest {
 #[derive(Debug, Serialize)]
 pub struct ListDataReply {
     pub data: Vec<SubCategoryData>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ListHistoryRequest {
+    pub record_id: i64,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ListHistoryReply {
+    pub data: Vec<HistoryData>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ListCategoryHistoryRequest {
+    pub sub_category_id: i64,
+}
+
+#[derive(Debug, Serialize)]
+pub struct ListCategoryHistoryReply {
+    pub data: Vec<HistoryData>,
 }
 
 #[derive(Debug, Serialize)]

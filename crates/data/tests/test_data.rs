@@ -28,13 +28,39 @@ pub async fn data() -> anyhow::Result<()> {
     let category_data = uc.list_category_data(None).await?;
     assert_eq!(1, category_data.len());
     assert_eq!(200f64, category_data.first().unwrap().amount);
+    let history = uc
+        .list_history(data_list.first().unwrap().id.unwrap())
+        .await?;
+    assert_eq!(history.len(), 1);
+    assert!(history.first().unwrap().is_max);
+    assert!(history.first().unwrap().is_min);
+
     uc.modify_data(data_list.first().unwrap().id.unwrap(), 500f64)
         .await?;
     let category_data = uc.list_category_data(None).await?;
     assert_eq!(600f64, category_data.first().unwrap().amount);
+
+    let history = uc
+        .list_history(data_list.first().unwrap().id.unwrap())
+        .await?;
+    assert_eq!(history.len(), 1);
+    assert!(history.first().unwrap().is_min);
+    assert!(history.last().unwrap().is_max);
+    assert_eq!(history.last().unwrap().amount, 500f64);
+
+    let category_history = uc.list_category_history(2).await?;
+    assert_eq!(category_history.len(), 1);
+    assert!(category_history.first().unwrap().is_min);
+    assert!(category_history.last().unwrap().is_max);
+    assert_eq!(category_history.last().unwrap().amount, 600f64);
+
     uc.remove_data(data_list[0].id.unwrap()).await?;
     uc.remove_data(data_list[1].id.unwrap()).await?;
     assert_eq!(0, uc.list_data(None).await?.len());
+    let history = uc
+        .list_history(data_list.first().unwrap().id.unwrap())
+        .await?;
+    assert_eq!(history.len(), 0);
     Ok(())
 }
 
