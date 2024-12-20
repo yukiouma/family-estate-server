@@ -78,27 +78,20 @@ fn history_row_to_data(rows: &[HistoryRow]) -> Vec<HistoryData> {
     let mut last_amount: Option<f64> = None;
     for (index, row) in rows.into_iter().enumerate() {
         let date = row.history_date.format("%Y-%m-%d").to_string();
-        if let Some(last) = last_amount {
-            let change = last.sub(&row.amount).div(&last);
-            last_amount = Some(row.amount);
-            result.push(HistoryData {
-                id: row.id,
-                amount: row.amount,
-                change,
-                date: date.clone(),
-                is_max: false,
-                is_min: false,
-            });
+        let change = if let Some(last) = last_amount {
+            row.amount.sub(&last).div(&last)
         } else {
-            result.push(HistoryData {
-                id: row.id,
-                amount: row.amount,
-                change: 0f64,
-                date: date.clone(),
-                is_max: false,
-                is_min: false,
-            });
-        }
+            0f64
+        };
+        last_amount = Some(row.amount);
+        result.push(HistoryData {
+            id: row.id,
+            amount: row.amount,
+            change,
+            date: date.clone(),
+            is_max: false,
+            is_min: false,
+        });
         if row.amount.gt(&max) {
             max = row.amount;
             max_index = index
@@ -113,5 +106,6 @@ fn history_row_to_data(rows: &[HistoryRow]) -> Vec<HistoryData> {
     if let Some(history) = result.get_mut(min_index) {
         history.is_min = true;
     }
+    result.reverse();
     result
 }
