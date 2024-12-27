@@ -1,0 +1,16 @@
+[package]
+name = "statistic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = { workspace = true }
+sqlx = { workspace = true }
+serde = { workspace = true }
+
+[dev-dependencies]
+tokio = { version = "1.41.0", features = ["full"] }
+
+[[test]]
+name = "integration"
+path = "tests/tests.rs"

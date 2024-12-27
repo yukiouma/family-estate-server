@@ -41,3 +41,20 @@ CREATE TABLE IF NOT EXISTS `history` (
     INDEX `idx_data` (`data_id`),
     INDEX `idx_history_date` (`history_date`)
 );
+CREATE TABLE IF NOT EXISTS `statistic` (
+    `id` BIGINT AUTO_INCREMENT,
+    `label` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    `deleted_at` TIMESTAMP,
+    PRIMARY KEY(`id`)
+);
+CREATE TABLE IF NOT EXISTS `statistic_category` (
+    `id` BIGINT AUTO_INCREMENT,
+    `statistic_id` BIGINT NOT NULL,
+    `category_id` BIGINT NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    `deleted_at` TIMESTAMP,
+    PRIMARY KEY(`id`)
+);

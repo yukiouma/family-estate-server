@@ -7,7 +7,7 @@ edition = "2021"
 name = "server"
 
 [workspace]
-members = ["crates/category", "crates/data", "crates/tag"]
+members = ["crates/category", "crates/data", "crates/statistic", "crates/tag"]
 
 [dependencies]
 tokio = { version = "1.41.0", features = ["full"] }
@@ -18,6 +18,7 @@ axum = "0.7.7"
 category = { path = "crates/category" }
 data = { path = "crates/data" }
 tag = { path = "crates/tag" }
+statistic = { path = "crates/statistic" }
 serde = { workspace = true }
 tower-http = { version = "0.6.1", features = ["trace"] }
 tracing = "0.1.40"

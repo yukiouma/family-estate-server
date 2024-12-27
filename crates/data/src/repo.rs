@@ -1,5 +1,4 @@
 use crate::data::{Data, HistoryRow};
-use anyhow::Ok;
 use sqlx::{types::chrono, MySql, Pool};
 
 pub async fn create_data(pool: &Pool<MySql>, data: &Data) -> anyhow::Result<()> {

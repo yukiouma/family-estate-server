@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	docker build -t family-estate/server:v0.1.0 .
+	docker build --network=host -t family-estate/server:v0.1.1 .
 
 .PHONY: dev
 dev:

@@ -1,7 +1,11 @@
 use crate::{
     repo::Repo,
-    router::{category::category_router, data::data_router, tag::tag_router},
-    usecase::{category::CategoryUsecase, data::DataUsecase, tag::TagUsecase},
+    router::{
+        category::category_router, data::data_router, statistic::statistic_router, tag::tag_router,
+    },
+    usecase::{
+        category::CategoryUsecase, data::DataUsecase, statistic::StatisticUsecase, tag::TagUsecase,
+    },
 };
 use axum::Router;
 use tower_http::trace::TraceLayer;
@@ -22,7 +26,8 @@ impl Server {
                 Router::new()
                     .nest("/tag", tag_router(TagUsecase::new(&repo)))
                     .nest("/category", category_router(CategoryUsecase::new(&repo)))
-                    .nest("/data", data_router(DataUsecase::new(&repo))),
+                    .nest("/data", data_router(DataUsecase::new(&repo)))
+                    .nest("/statistic", statistic_router(StatisticUsecase::new(&repo))),
             )
             .layer(TraceLayer::new_for_http());
         Server { router }

@@ -420,6 +420,7 @@ dependencies = [
  "dotenv",
  "serde",
  "sqlx",
+ "statistic",
  "tag",
  "tokio",
  "tower-http",
@@ -1648,6 +1649,16 @@ dependencies = [
  "sqlx-core",
  "tracing",
  "url",
+]
+
+[[package]]
+name = "statistic"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "serde",
+ "sqlx",
+ "tokio",
 ]
 
 [[package]]

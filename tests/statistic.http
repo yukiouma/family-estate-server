@@ -1,0 +1,25 @@
+GET http://localhost:9001/api/statistic
+
+###
+GET http://localhost:9001/api/statistic/6
+
+
+###
+POST http://localhost:9001/api/statistic
+Content-Type: application/json
+
+{
+    "name": "test",
+    "categories": [1]
+}
+
+###
+PUT http://localhost:9001/api/statistic/6
+Content-Type: application/json
+
+{
+    "name": "test2"
+}
+
+###
+DELETE http://localhost:9001/api/statistic/6

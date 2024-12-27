@@ -4,6 +4,10 @@ use data::{
     usecase::DataUsecase,
 };
 use sqlx::MySqlPool;
+use statistic::{
+    statistic::{CreateStatistic, Statistic, StatisticCategory},
+    usecase::StatisticUsecase,
+};
 use tag::{tag::Tag, usecase::TagUsecase};
 
 #[derive(Debug, Clone)]
@@ -11,6 +15,7 @@ pub struct Repo {
     tag: TagUsecase,
     data: DataUsecase,
     category: CategoryUsecase,
+    statistic: StatisticUsecase,
 }
 
 impl Repo {
@@ -18,11 +23,13 @@ impl Repo {
         let pool = MySqlPool::connect(database_url).await?;
         let tag = TagUsecase::new(pool.clone());
         let data = DataUsecase::new(pool.clone());
-        let category = CategoryUsecase::new(pool);
+        let category = CategoryUsecase::new(pool.clone());
+        let statistic = StatisticUsecase::new(pool);
         Ok(Repo {
             tag,
             data,
             category,
+            statistic,
         })
     }
     pub async fn list_tags(&self) -> anyhow::Result<Vec<Tag>> {
@@ -85,5 +92,23 @@ impl Repo {
     }
     pub async fn remove_data(&self, id: i64) -> anyhow::Result<()> {
         self.data.remove_data(id).await
+    }
+    pub async fn list_statistic(&self) -> anyhow::Result<Vec<Statistic>> {
+        self.statistic.list_statistics().await
+    }
+    pub async fn get_statistic_category(
+        &self,
+        id: i64,
+    ) -> anyhow::Result<Option<StatisticCategory>> {
+        self.statistic.get_statistic_category(id).await
+    }
+    pub async fn create_statistic(&self, statistic: &CreateStatistic) -> anyhow::Result<()> {
+        self.statistic.create_statistic(statistic).await
+    }
+    pub async fn modify_statistic(&self, id: i64, name: &str) -> anyhow::Result<()> {
+        self.statistic.modify_statistic(id, name).await
+    }
+    pub async fn remove_statistic(&self, id: i64) -> anyhow::Result<()> {
+        self.statistic.remove_statistic(id).await
     }
 }

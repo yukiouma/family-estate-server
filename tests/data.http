@@ -10,7 +10,13 @@ GET http://localhost:9000/api/data
 GET http://localhost:9000/api/data?tag_id=1
 
 ###
-POST http://localhost:9001/api/data
+GET http://localhost:9000/api/data/history?record_id=1
+
+###
+GET http://localhost:9000/api/data/category/history?sub_category_id=10
+
+###
+POST http://localhost:9000/api/data
 Content-Type: application/json
 
 {
@@ -21,7 +27,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:9001/api/data/5
+PUT http://localhost:9000/api/data/5
 Content-Type: application/json
 
 {
